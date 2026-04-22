@@ -1,0 +1,60 @@
+SIAKAD SEKOLAH
+
+I# INSTALASI DI LOCAL HOST
+
+1. Extract folder SIAKAD-ST yang sudah didownload
+2. Buka panduan instalasi
+3. Siapkan XAMPP versi 5.6 lebih recommended dan aktifkan
+4. Copy folder SIAKAD-ST yang sudah diekstract di htdoc dan rename sesuai keinginan, misal: siakad-sma
+5.  ketik dibrowser: localhost/phpmyadmin
+6. Klik database dan buat database, misal: 'siakad-sma'
+7. Unggah database demgan buka folder SIAKAD-ST dan cari database 'siakad-st.sql'
+8. buka folder 'siakad-sma' dengan text editor, seperti sublime-text atau jenis yang lainnya.
+9. Cari file config/koneksi.php dan ganti pada script database (baris 8) "siakad-st" menjadi sesuai database saudara yang sudah dibuat: "siakad-sma"
+10. Cek apakah sudah beroperasi dengan baik dibrowser: localhost/siakad-sma
+
+Silahkan kembangkan lagi dan customise sesuai dengan kebutuhan  supaya lebih keren sebelum diinstal di hosting. 
+
+
+========================
+II#   Installasi di Hosting
+
+Berikut adalah cara installasi di Hosting :
+A. Membuat Subdomain (domain), User, Database, Password di Cpanel anda
+
+1. Klik Icon MySQL Database Wizard
+2. Create A Database Contoh = rznxheyp__siakad-sma (klik next step)
+3. Create Database Users :
+  Username : contoh = rznxheyp__siakad-sma
+  Password : contoh: rznxheyp__siakad-sma atau pilih password generated (jangan lupa di copas dulu biar tidak lupa)
+4. Jika sudah semua, selanjutnya klik Tombol = Create User
+5. Add User to the database
+6. Centang ALL PRIVILEGES
+7. klik Tombol Make Changes
+8. Selanjutnya Upload File SQL (siakad-st.sql) di PHPMyaAdmin Cpanel anda
+ a) Klik icon PHPMyAdmin
+ b) Pilih database yang sudah dibuat tadi, di sidebar sebelah kiri Contoh = rznxheyp__siakad-sma
+ c) Pilih Menu import
+ d) Choose File (Upload File siakad-st.sql)
+  e) Selanjutnya klik Kirim/Send tunggu sampai semua file siakad-st.sql nya terupload semua
+  f) Selesai
+
+B. Upload Source Code di CPanel...
+1. Klik icon File Manager (Langsung Mengarah ke public_html);
+2. Klik Menu Upload jika akan memasang web di domain utama (jika di subdomain pilih folder subdomain tersebut)
+3. Centang Overwrite existing files;
+4. Klik Tombol Select File atau bisa langsung drop file dari folder ;
+5. Pilih File siakad-st.zip yang sudah di dowonload;
+6. Tunggu Proses Upload selesai hingga 100% yang di tandai dengan warna hijau;
+7. Setelah Complete Klik Kembali untuk masuk lagi ke halaman public_html
+8. Pilih file siakad-st.zip klik kanan pilih extract here
+9) Setelah di ekstract Cari file config/koneksi.php dan ganti pada script berikut:
+$username = "root";
+$password = ""; 
+$database = "siakad-st";
+(Silakan sesuaikan dengan database, username dan passwordnya yang sudah dibuat)
+10. Selesai
+
+Next, jangan lupa setting PHP Manager di PHP 5.6  jika saat akses mengalami kendala tidak bisa login.
+
+Terima Kasih dan semoga bermanfaat.
