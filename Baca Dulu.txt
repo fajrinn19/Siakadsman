@@ -1,22 +1,2 @@
-Penambahan Fitur pada versi 4.1
-1. Master Kelompok Mapel
-2. Kompetensi Dasar perjadwal pelajaran
-3. Penilaian Diri Siswa
-4. Penilaian Teman Siswa perkelas
-5. PSB ONline
-   - Data Menu
-   - Data Halaman 
-   - Kode Aktivasi
-   - Data Pendaftar
-6. Journal KBM (Kegiatan Belajar Mengajar)
 
-login
-
-Administrator
-User: admin   pw: admin123
-Guru; user: 202311111101   pw: guru123
-
-CHIKA ;202311111104 guru123
-Siswa; user: 12345678  pw:siswa123
-Kepsek: user: 196209051987031007  pw: 196209051987031007
 
