@@ -1,0 +1,21 @@
+#--------------------------------------------------------------------
+# Salin file ini menjadi .env lalu sesuaikan.
+#--------------------------------------------------------------------
+
+CI_ENVIRONMENT = production
+
+app.baseURL = 'http://localhost:8080/'
+
+database.default.hostname = localhost
+database.default.database = siakad-st
+database.default.username = root
+database.default.password =
+database.default.DBDriver = MySQLi
+database.default.port = 3306
+
+# Identitas sekolah untuk raport (opsional, bawaan ada di app/Config/Sekolah.php)
+# sekolah.nama = 'SMA NEGERI 14 SINJAI'
+# sekolah.kepalaNama = 'Husniar, S.Pd., M.Pd., Gr'
+# sekolah.kepalaNip = '196209051987031007'
+# sekolah.kkm = 77
+# sekolah.smsAbsensi = true

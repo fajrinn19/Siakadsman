@@ -1,0 +1,28 @@
+/* Gaya tambahan SIAKAD di atas AdminLTE */
+.input-round { border-radius: 10px; }
+.blocked-notice { background: #f2dede; color: #a94442; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #ebccd1; }
+.blocked-notice .timer { font-size: 24px; font-weight: bold; margin: 10px 0; }
+.warning-notice { background: #fcf8e3; color: #8a6d3b; padding: 10px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #faebcc; font-size: 14px; }
+
+/* Tombol hapus berupa form agar bisa sebaris dengan tombol lain */
+.form-inline-btn { display: inline; margin: 0; }
+.aksi .btn, .aksi .form-inline-btn { margin: 1px; }
+
+/* Filter di header box */
+.box-header .filter-form { margin-top: 0; }
+.box-header .filter-form select, .box-header .filter-form input { padding: 4px; }
+.pesan-kosong { padding: 60px; color: red; text-align: center; }
+.info-box { border-radius: 10px; }
+.info-box .info-box-icon { border-radius: 10px; }
+.tabel-info th { width: 140px; }
+.foto-profil { width: 155px; }
+.absen-belum { background-color: #ffcccc !important; }
+.absen-sudah { background-color: #ccffcc !important; }
+.tabel-nilai input[type=text], .tabel-nilai input[type=number] { width: 45px; text-align: center; padding: 0; }
+.tabel-nilai th, .tabel-nilai td { border: 1px solid #e3e3e3 !important; }
+.files { position: absolute; z-index: 2; top: 0; left: 0; opacity: 0; background-color: transparent; color: transparent; }
+
+@media print {
+    .main-header, .main-sidebar, .main-footer, .content-header, .no-print, .btn, form.filter-form { display: none !important; }
+    .content-wrapper { margin-left: 0 !important; }
+}
