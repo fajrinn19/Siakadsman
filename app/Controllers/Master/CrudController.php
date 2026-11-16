@@ -111,6 +111,26 @@ abstract class CrudController extends BaseController
         return $baris;
     }
 
+    /**
+     * Validasi tambahan di luar aturan field (mis. jadwal bentrok). Kembalikan pesan error atau null.
+     *
+     * @param array<string, mixed>      $data
+     * @param array<string, mixed>|null $lama
+     */
+    protected function validasiTambahan(array $data, ?array $lama): ?string
+    {
+        return null;
+    }
+
+    /**
+     * Dipanggil setelah data tersimpan (mis. menonaktifkan baris lain).
+     *
+     * @param array<string, mixed> $data
+     */
+    protected function setelahSimpan(array $data, string $id): void
+    {
+    }
+
     protected function bolehTambah(): bool
     {
         return boleh_ubah();
@@ -171,7 +191,13 @@ abstract class CrudController extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $this->model()->insert($this->siapkan($data, null));
+        if (($pesan = $this->validasiTambahan($data, null)) !== null) {
+            return redirect()->back()->withInput()->with('error', $pesan);
+        }
+
+        $siap = $this->siapkan($data, null);
+        $this->model()->insert($siap);
+        $this->setelahSimpan($siap, (string) ($siap[$this->model()->primaryKey] ?? $this->model()->getInsertID()));
 
         return $this->kembali($this->urlDaftar($data), 'Data berhasil ditambahkan.');
     }
@@ -207,7 +233,13 @@ abstract class CrudController extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $this->model()->update($id, $this->siapkan($data, $lama));
+        if (($pesan = $this->validasiTambahan($data, $lama)) !== null) {
+            return redirect()->back()->withInput()->with('error', $pesan);
+        }
+
+        $siap = $this->siapkan($data, $lama);
+        $this->model()->update($id, $siap);
+        $this->setelahSimpan($siap, (string) ($siap[$this->model()->primaryKey] ?? $id));
 
         return $this->kembali($this->urlDaftar($data + $lama), 'Data berhasil diperbarui.');
     }

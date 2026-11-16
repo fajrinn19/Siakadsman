@@ -41,7 +41,7 @@
 <table width="100%">
     <tr>
         <td width="60%"></td>
-        <td style="text-align:center">Mengetahui,<br>Kepala Sekolah<br><br><br><br><u><?= esc($sekolah->kepalaNama) ?></u><br>NIP. <?= esc($sekolah->kepalaNip) ?></td>
+        <td style="text-align:center">Mengetahui,<br>Kepala Sekolah<br><br><br><br><u><?= esc(kepala_sekolah()['nama']) ?></u><br>NIP. <?= esc(kepala_sekolah()['nip']) ?></td>
     </tr>
 </table>
 </body>

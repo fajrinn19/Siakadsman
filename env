@@ -19,3 +19,7 @@ database.default.port = 3306
 # sekolah.kepalaNip = '196209051987031007'
 # sekolah.kkm = 77
 # sekolah.smsAbsensi = true
+
+# Gateway WhatsApp (Fonnte) untuk notifikasi absensi ke orang tua (opsional)
+# notifikasi.token = 'TOKEN_FONNTE'
+# sekolah.ppdbBuka = true

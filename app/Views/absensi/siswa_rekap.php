@@ -3,7 +3,8 @@
 <div class="col-md-12">
     <div class="box box-info">
         <div class="box-header with-border"><h3 class="box-title">Rekap Absensi Siswa</h3>
-            <a class="btn btn-info btn-sm pull-right" href="<?= site_url('absensi-siswa/rekap/' . $jadwal['kodejdwl'] . '/bulanan') ?>"><i class="fa fa-calendar"></i> Rekap Bulanan</a></div>
+            <a class="btn btn-info btn-sm pull-right" href="<?= site_url('absensi-siswa/rekap/' . $jadwal['kodejdwl'] . '/bulanan') ?>"><i class="fa fa-calendar"></i> Rekap Bulanan</a>
+            <a class="btn btn-default btn-sm pull-right" style="margin-right:5px" href="<?= site_url('absensi-siswa/rekap/' . $jadwal['kodejdwl'] . '/ekspor') ?>"><i class="fa fa-file-excel-o"></i> Excel</a></div>
         <div class="box-body">
             <?= view('components/info_jadwal', ['jadwal' => $jadwal, 'tambahan' => ['Jumlah Pertemuan' => $pertemuan . ' kali']]) ?>
             <table class="table table-bordered table-striped datatable">

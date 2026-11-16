@@ -124,7 +124,10 @@ abstract class BaseController extends Controller
      */
     protected function halamanPilihJadwal(string $judul, string $url, callable $aksi, array $ekstra = []): string
     {
-        $level     = level();
+        $level = level();
+        if ($level === 'ortu') {
+            throw PageNotFoundException::forPageNotFound();
+        }
         $tahunList = model(TahunAkademikModel::class)->semua();
         $tahun     = (string) $this->request->getGet('tahun');
         $kelas     = (string) $this->request->getGet('kelas');

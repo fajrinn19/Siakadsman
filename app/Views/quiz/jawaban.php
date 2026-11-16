@@ -6,6 +6,15 @@
             <a class="btn btn-default btn-sm pull-right" href="<?= site_url('quiz/' . $quiz['kodejdwl']) ?>">Kembali</a></div>
         <div class="box-body">
             <?= view('components/info_jadwal', ['jadwal' => $jadwal, 'tambahan' => [$quiz['kategori_quiz_ujian'] => $quiz['keterangan']]]) ?>
+            <?php if (boleh_ubah()): ?>
+                <form method="post" action="<?= site_url('quiz/soal/' . $quiz['id_quiz_ujian'] . '/kirim-nilai') ?>" class="well well-sm form-inline" onsubmit="return confirm('Kirim nilai akhir quiz ke Nilai Pengetahuan?')">
+                    <?= csrf_field() ?>
+                    <label>Kirim nilai akhir ke <b>Nilai Pengetahuan</b> sebagai KD</label>
+                    <input type="text" name="kd" maxlength="5" class="form-control input-sm" style="width:80px" placeholder="3.1" required aria-label="Kode KD">
+                    <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-share"></i> Kirim</button>
+                    <small class="text-muted">Jika KD itu sudah ada untuk siswa, nilainya diperbarui.</small>
+                </form>
+            <?php endif ?>
             <table class="table table-bordered table-striped datatable">
                 <thead><tr><th>No</th><th>NISN</th><th>Nama Siswa</th><th>Status</th><th>Objektif</th><th>Essai</th><th>Nilai Akhir</th><th></th></tr></thead>
                 <tbody>

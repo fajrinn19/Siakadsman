@@ -17,7 +17,7 @@
                 <input type="search" id="cariMenu" placeholder="Cari menu..." autocomplete="off" aria-label="Cari menu">
                 <div class="hasil-cari" id="hasilCariMenu"></div>
             </li>
-            <li><a href="<?= site_url('forum') ?>" title="Forum diskusi"><i class="fa fa-bell-o fa-lg"></i></a></li>
+            <li><a href="<?= site_url(level() === 'ortu' ? 'info/pengumuman' : 'forum') ?>" title="<?= level() === 'ortu' ? 'Pengumuman' : 'Forum diskusi' ?>"><i class="fa fa-bell-o fa-lg"></i></a></li>
             <li><a href="<?= esc($p['profil'], 'attr') ?>" title="Pengaturan profil"><i class="fa fa-cog fa-lg"></i></a></li>
         </ul>
     </div>

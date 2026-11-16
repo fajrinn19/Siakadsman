@@ -10,6 +10,15 @@
         <div class="box-body">
             <?= view('components/info_jadwal', ['jadwal' => $jadwal, 'tambahan' => ['Batas Waktu' => substr($quiz['batas_waktu'], 0, 16) . ' WIB']]) ?>
 
+            <?php if ($kelola && count($quizLain) > 1): ?>
+                <form method="post" action="<?= site_url("quiz/soal/{$id}/salin") ?>" class="well well-sm form-inline" onsubmit="return confirm('Salin semua soal dari quiz terpilih ke quiz ini?')">
+                    <?= csrf_field() ?>
+                    <label><i class="fa fa-database"></i> Bank soal:</label>
+                    <?= form_dropdown('sumber', $quizLain, '', ['class' => 'form-control input-sm', 'style' => 'max-width:420px', 'required' => 'required', 'aria-label' => 'Quiz sumber']) ?>
+                    <button type="submit" class="btn btn-default btn-sm">Salin Soal</button>
+                </form>
+            <?php endif ?>
+
             <h4>A. Soal Essai</h4>
             <table class="table table-bordered table-striped">
                 <thead><tr><th style="width:30px">No</th><th>Pertanyaan</th><?php if ($kelola): ?><th style="width:50px"></th><?php endif ?></tr></thead>

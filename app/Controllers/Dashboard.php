@@ -3,16 +3,19 @@
 namespace App\Controllers;
 
 use App\Models\JadwalPelajaranModel;
+use App\Models\KalenderModel;
+use App\Models\PengumumanModel;
 use App\Models\KompetensiDasarModel;
 use App\Models\TahunAkademikModel;
 use CodeIgniter\HTTP\RedirectResponse;
 
 class Dashboard extends BaseController
 {
-    public function index(): string
+    public function index(): string|RedirectResponse
     {
         return match (level()) {
             'guru', 'siswa' => $this->penggunaKelas(),
+            'ortu'          => redirect()->to(site_url('ortu')),
             default         => $this->admin(),
         };
     }
@@ -25,6 +28,7 @@ class Dashboard extends BaseController
         return redirect()->to(match (level()) {
             'guru'  => site_url("guru/detail/{$id}"),
             'siswa' => site_url("siswa/detail/{$id}"),
+            'ortu'  => site_url('siswa/detail/' . rawurlencode((string) session('nisn_anak'))),
             default => site_url("admin/edit/{$id}"),
         });
     }
@@ -65,6 +69,8 @@ class Dashboard extends BaseController
             'tahunGrafik' => $tahunGrafik,
             'grafik'      => $this->kunjunganBulanan($tahunGrafik),
             'jadwal'      => $this->jadwalHariIni(['kurikulum' => $this->kurikulumAktif()]),
+            'pengumuman'  => model(PengumumanModel::class)->berlaku(level(), 3),
+            'agenda'      => model(KalenderModel::class)->mendatang(4),
         ]);
     }
 
@@ -187,6 +193,8 @@ class Dashboard extends BaseController
             'semua'     => $semua,
             'hariIni'   => $this->jadwalHariIni($filter),
             'statistik' => $statistik,
+            'pengumuman' => model(PengumumanModel::class)->berlaku(level(), 3),
+            'agenda'    => model(KalenderModel::class)->mendatang(4),
             'mini'      => [
                 ['label' => 'Bahan & Tugas', 'ikon' => 'fa-files-o', 'url' => 'bahan-tugas', 'total' => $hitung('rb_elearning')],
                 ['label' => 'Quiz & Ujian', 'ikon' => 'fa-pencil-square-o', 'url' => 'quiz', 'total' => $hitung('rb_quiz_ujian')],

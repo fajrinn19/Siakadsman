@@ -70,6 +70,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">Masuk</button>
                 </form>
+                <p class="text-center" style="margin-top:18px; font-size:13px">Calon siswa baru? <a href="<?= site_url('ppdb') ?>"><b>Daftar PPDB</b></a> · <a href="<?= site_url('ppdb/status') ?>">Cek status</a></p>
             <?php endif ?>
         </div>
     </div>

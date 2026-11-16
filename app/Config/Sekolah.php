@@ -33,6 +33,9 @@ class Sekolah extends BaseConfig
     /** Batas percobaan login gagal per IP sebelum diblokir sementara. */
     public int $maksPercobaanLogin = 5;
 
+    /** Formulir PPDB publik (/ppdb) menerima pendaftaran. */
+    public bool $ppdbBuka = true;
+
     /** Lama blokir login (menit). */
     public int $lamaBlokirMenit = 15;
 }

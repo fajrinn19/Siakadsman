@@ -110,7 +110,25 @@ class Quiz extends BaseController
             'essai'    => model(PertanyaanEssaiModel::class)->where('id_quiz_ujian', $id)->orderBy('id_pertanyaan_essai', 'ASC')->findAll(),
             'objektif' => model(PertanyaanObjektifModel::class)->where('id_quiz_ujian', $id)->orderBy('id_pertanyaan_objektif', 'ASC')->findAll(),
             'kelola'   => boleh_ubah(),
+            'quizLain' => $this->quizLain($id),
         ]);
+    }
+
+    /** Quiz lain yang boleh dijadikan sumber salinan soal (guru: hanya quiz di jadwalnya). */
+    private function quizLain(int $id): array
+    {
+        $b = model(QuizUjianModel::class)
+            ->select('rb_quiz_ujian.id_quiz_ujian, rb_quiz_ujian.keterangan, k.kategori_quiz_ujian, j.kode_kelas, m.namamatapelajaran')
+            ->join('rb_kategori_quiz_ujian k', 'rb_quiz_ujian.id_kategori_quiz_ujian = k.id_kategori_quiz_ujian', 'left')
+            ->join('rb_jadwal_pelajaran j', 'rb_quiz_ujian.kodejdwl = j.kodejdwl')
+            ->join('rb_mata_pelajaran m', 'j.kode_pelajaran = m.kode_pelajaran', 'left')
+            ->where('rb_quiz_ujian.id_quiz_ujian !=', $id);
+        if (level() === 'guru') {
+            $b->where('j.nip', session('id'));
+        }
+
+        return pilihan($b->orderBy('rb_quiz_ujian.id_quiz_ujian', 'DESC')->findAll(100), 'id_quiz_ujian',
+            static fn ($q) => "{$q['namamatapelajaran']} ({$q['kode_kelas']}) — {$q['kategori_quiz_ujian']}: {$q['keterangan']}", '- Pilih quiz sumber -');
     }
 
     public function tambahEssai(int $id): RedirectResponse
@@ -223,8 +241,8 @@ class Quiz extends BaseController
             'quiz'     => $quiz,
             'jadwal'   => $jadwal,
             'habis'    => QuizUjianModel::waktuHabis($quiz),
-            'essai'    => $this->essaiDenganJawaban($id, $nisn),
-            'objektif' => $this->objektifDenganJawaban($id, $nisn),
+            'essai'    => $this->acak($this->essaiDenganJawaban($id, $nisn), 'id_pertanyaan_essai', $nisn),
+            'objektif' => $this->acak($this->objektifDenganJawaban($id, $nisn), 'id_pertanyaan_objektif', $nisn),
         ]);
     }
 
@@ -277,7 +295,84 @@ class Quiz extends BaseController
         return $this->kembali(site_url("quiz/soal/{$id}/kerjakan"), 'Jawaban essai disimpan.');
     }
 
+    /** Bank soal: salin semua soal dari quiz lain ke quiz ini. */
+    public function salinSoal(int $id): RedirectResponse
+    {
+        $this->wajibBolehUbah();
+        $this->quiz($id);
+        $sumber = (int) $this->request->getPost('sumber');
+        [$asal] = $this->quiz($sumber); // juga memastikan guru boleh mengakses quiz sumber
+        if ($sumber === $id) {
+            return $this->gagal(site_url("quiz/soal/{$id}"), 'Pilih quiz lain sebagai sumber.');
+        }
+
+        $nEssai = $nObj = 0;
+        foreach (model(PertanyaanEssaiModel::class)->where('id_quiz_ujian', $sumber)->findAll() as $e) {
+            model(PertanyaanEssaiModel::class)->insert(['id_quiz_ujian' => $id, 'pertanyaan_essai' => $e['pertanyaan_essai']]);
+            $nEssai++;
+        }
+        foreach (model(PertanyaanObjektifModel::class)->where('id_quiz_ujian', $sumber)->findAll() as $o) {
+            unset($o['id_pertanyaan_objektif']);
+            model(PertanyaanObjektifModel::class)->insert(['id_quiz_ujian' => $id] + $o);
+            $nObj++;
+        }
+
+        return $this->kembali(site_url("quiz/soal/{$id}"), "Disalin dari \"{$asal['keterangan']}\": {$nEssai} soal essai dan {$nObj} soal pilihan ganda.");
+    }
+
+    /** Kirim nilai akhir quiz semua siswa yang menjawab ke nilai pengetahuan (sebagai satu KD). */
+    public function kirimNilai(int $id): RedirectResponse
+    {
+        $this->wajibBolehUbah();
+        [$quiz, $jadwal] = $this->quiz($id);
+        $kd = trim((string) $this->request->getPost('kd'));
+        if ($kd === '' || mb_strlen($kd) > 5) {
+            return $this->gagal(site_url("quiz/soal/{$id}/jawaban"), 'Isi kode KD (maks. 5 karakter), mis. 3.1');
+        }
+
+        $model  = model(\App\Models\NilaiPengetahuanModel::class);
+        $quizM  = model(QuizUjianModel::class);
+        $jumlah = 0;
+        foreach (model(SiswaModel::class)->perKelas($jadwal['kode_kelas']) as $s) {
+            $n = $quizM->nilai($id, $s['nisn']);
+            if ($n['benar'] === 0 && ! $n['essaiDinilai'] && ! $this->pernahMenjawab($id, $s['nisn'])) {
+                continue;
+            }
+            $data = array_fill_keys(['nilai1', 'nilai2', 'nilai3', 'nilai4', 'nilai5'], $n['akhir']) + [
+                'deskripsi' => mb_substr("Nilai {$quiz['kategori_quiz_ujian']}: {$quiz['keterangan']}", 0, 250),
+            ];
+            $lama = $model->where(['kodejdwl' => $jadwal['kodejdwl'], 'nisn' => $s['nisn'], 'kd' => $kd])->first();
+            $lama ? $model->update($lama['id_nilai_pengetahuan'], $data)
+                  : $model->insert($data + ['kodejdwl' => $jadwal['kodejdwl'], 'nisn' => $s['nisn'], 'kd' => $kd, 'user_akses' => (string) session('id'), 'waktu' => date('Y-m-d H:i:s')]);
+            $jumlah++;
+        }
+
+        return $this->kembali(site_url("quiz/soal/{$id}/jawaban"), "Nilai {$jumlah} siswa dikirim ke Nilai Pengetahuan (KD {$kd}).");
+    }
+
     // ------------------------------------------------------------------ Bantuan
+
+    private function pernahMenjawab(int $id, string $nisn): bool
+    {
+        return $this->db->table('rb_jawaban_objektif a')->join('rb_pertanyaan_objektif b', 'a.id_pertanyaan_objektif = b.id_pertanyaan_objektif')
+            ->where(['b.id_quiz_ujian' => $id, 'a.nisn' => $nisn])->countAllResults() > 0
+            || $this->db->table('rb_jawaban_essai a')->join('rb_pertanyaan_essai b', 'a.id_pertanyaan_essai = b.id_pertanyaan_essai')
+                ->where(['b.id_quiz_ujian' => $id, 'a.nisn' => $nisn])->countAllResults() > 0;
+    }
+
+    /**
+     * Acak urutan soal secara tetap per siswa (urutan sama setiap kali siswa membuka halaman).
+     *
+     * @param list<array<string, mixed>> $soal
+     *
+     * @return list<array<string, mixed>>
+     */
+    private function acak(array $soal, string $kunci, string $nisn): array
+    {
+        usort($soal, static fn ($a, $b) => crc32($nisn . '-' . $a[$kunci]) <=> crc32($nisn . '-' . $b[$kunci]));
+
+        return $soal;
+    }
 
     /** @return array{0: array<string, mixed>, 1: array<string, mixed>} quiz & jadwal (dengan cek akses) */
     private function quiz(int $id): array

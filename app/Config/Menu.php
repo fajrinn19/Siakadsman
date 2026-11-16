@@ -17,6 +17,7 @@ class Menu extends BaseConfig
         'kepala'    => 'Kepala Sekolah',
         'guru'      => 'Guru / Pengajar',
         'siswa'     => 'Siswa / Murid',
+        'ortu'      => 'Orang Tua / Wali',
     ];
 
     /**
@@ -29,6 +30,7 @@ class Menu extends BaseConfig
             'kepala'    => $this->kepala(),
             'guru'      => $this->guru(),
             'siswa'     => $this->siswa(),
+            'ortu'      => $this->ortu(),
             default     => [],
         };
     }
@@ -55,6 +57,9 @@ class Menu extends BaseConfig
                 ['label' => 'Guru', 'url' => 'guru'],
                 ['label' => 'Kepala Sekolah', 'url' => 'kepala-sekolah'],
                 ['label' => 'Administrator', 'url' => 'admin'],
+                ['label' => 'Akun Orang Tua', 'url' => 'akun-ortu'],
+                ['label' => 'Impor Siswa (Excel)', 'url' => 'siswa/impor'],
+                ['label' => 'Alumni', 'url' => 'alumni'],
             ]],
             ['label' => 'Data Akademik', 'icon' => 'fa-tag', 'children' => [
                 ['label' => 'Kelompok Mapel', 'url' => 'kelompok-mapel'],
@@ -64,6 +69,7 @@ class Menu extends BaseConfig
                 ['label' => 'Penilaian Diri', 'url' => 'penilaian-diri'],
                 ['label' => 'Rentang Nilai', 'url' => 'predikat'],
                 ['label' => 'Penilaian Teman', 'url' => 'penilaian-teman'],
+                ['label' => 'Kenaikan Kelas', 'url' => 'kenaikan-kelas'],
             ]],
             ['label' => 'Data Absensi', 'icon' => 'fa-th-large', 'children' => [
                 ['label' => 'Absensi Guru', 'url' => 'absensi-guru'],
@@ -82,6 +88,17 @@ class Menu extends BaseConfig
                 ['label' => 'Prestasi', 'url' => 'raport/prestasi'],
                 ['label' => 'Data Nilai Raport', 'url' => 'nilai'],
                 ['label' => 'Cetak Raport', 'url' => 'raport/cetak'],
+            ]],
+            ['label' => 'PPDB', 'icon' => 'fa-user-plus', 'url' => 'ppdb/admin'],
+            ['label' => 'Informasi', 'icon' => 'fa-bullhorn', 'children' => [
+                ['label' => 'Kelola Pengumuman', 'url' => 'pengumuman'],
+                ['label' => 'Kelola Kalender', 'url' => 'kalender'],
+                ['label' => 'Lihat Kalender', 'url' => 'info/kalender'],
+                ['label' => 'Notifikasi WhatsApp', 'url' => 'notifikasi'],
+            ]],
+            ['label' => 'Sistem', 'icon' => 'fa-cogs', 'children' => [
+                ['label' => 'Pemeriksaan Data', 'url' => 'pemeriksaan-data'],
+                ['label' => 'Log Aktivitas', 'url' => 'log-aktivitas'],
             ]],
         ];
     }
@@ -109,6 +126,10 @@ class Menu extends BaseConfig
             ['label' => 'Journal KBM', 'icon' => 'fa-tags', 'url' => 'journal-kbm'],
             ['label' => 'Forum Diskusi', 'icon' => 'fa-th-list', 'url' => 'forum'],
             ['label' => 'Laporan Nilai', 'icon' => 'fa-calendar', 'url' => 'raport/cetak'],
+            ['label' => 'Alumni', 'icon' => 'fa-graduation-cap', 'url' => 'alumni'],
+            ['label' => 'PPDB', 'icon' => 'fa-user-plus', 'url' => 'ppdb/admin'],
+            ['label' => 'Pengumuman', 'icon' => 'fa-bullhorn', 'url' => 'info/pengumuman'],
+            ['label' => 'Kalender Akademik', 'icon' => 'fa-calendar-o', 'url' => 'info/kalender'],
         ];
     }
 
@@ -131,6 +152,8 @@ class Menu extends BaseConfig
                 ['label' => 'Input Nilai Raport', 'url' => 'nilai'],
                 ['label' => 'Cetak Raport Siswa', 'url' => 'raport/cetak'],
             ]],
+            ['label' => 'Pengumuman', 'icon' => 'fa-bullhorn', 'url' => 'info/pengumuman'],
+            ['label' => 'Kalender Akademik', 'icon' => 'fa-calendar-o', 'url' => 'info/kalender'],
         ];
     }
 
@@ -148,6 +171,25 @@ class Menu extends BaseConfig
                 ['label' => 'Nilai UTS', 'url' => 'raport/uts-saya'],
                 ['label' => 'Nilai Raport', 'url' => 'raport/saya'],
             ]],
+            ['label' => 'Pengumuman', 'icon' => 'fa-bullhorn', 'url' => 'info/pengumuman'],
+            ['label' => 'Kalender Akademik', 'icon' => 'fa-calendar-o', 'url' => 'info/kalender'],
+        ];
+    }
+
+    /** @return list<array<string, mixed>> */
+    private function ortu(): array
+    {
+        return [
+            ['label' => 'Dashboard', 'icon' => 'fa-dashboard', 'url' => 'ortu'],
+            ['label' => 'Profil Anak', 'icon' => 'fa-child', 'url' => 'profil'],
+            ['label' => 'Absensi Anak', 'icon' => 'fa-calendar-check-o', 'url' => 'ortu/absensi'],
+            ['label' => 'Tugas Anak', 'icon' => 'fa-files-o', 'url' => 'ortu/tugas'],
+            ['label' => 'Nilai', 'icon' => 'fa-calendar', 'children' => [
+                ['label' => 'Nilai UTS', 'url' => 'raport/uts-saya'],
+                ['label' => 'Nilai Raport', 'url' => 'raport/saya'],
+            ]],
+            ['label' => 'Pengumuman', 'icon' => 'fa-bullhorn', 'url' => 'info/pengumuman'],
+            ['label' => 'Kalender Akademik', 'icon' => 'fa-calendar-o', 'url' => 'info/kalender'],
         ];
     }
 }

@@ -229,6 +229,9 @@ if (! function_exists('profil_pengguna')) {
             $guru = $db->table('rb_guru')->where('nip', $id)->get()->getRowArray();
             $nama = $guru['nama_guru'] ?? $nama;
             $foto = foto_guru($guru['foto'] ?? '');
+        } elseif ($level === 'ortu') {
+            $siswa = $db->table('rb_siswa')->where('nisn', (string) session('nisn_anak'))->get()->getRowArray();
+            $foto  = foto_siswa($siswa['foto'] ?? '');
         } elseif ($level === 'siswa') {
             $siswa = $db->table('rb_siswa')->where('nisn', $id)->get()->getRowArray();
             $nama  = $siswa['nama'] ?? $nama;
@@ -250,5 +253,34 @@ if (! function_exists('label_mantan')) {
     {
         return empty($siswa['mantan']) ? ''
             : ' <span class="label label-default" title="Menurut riwayat kelas, siswa ini sekarang di ' . esc($siswa['kode_kelas'], 'attr') . '">sekarang di ' . esc($siswa['kode_kelas']) . '</span>';
+    }
+}
+
+if (! function_exists('kepala_sekolah')) {
+    /**
+     * Nama & NIP kepala sekolah untuk tanda tangan: dari akun level "kepala" (dicocokkan ke data guru
+     * lewat NIP), atau dari app/Config/Sekolah.php jika belum ada.
+     *
+     * @return array{nama: string, nip: string}
+     */
+    function kepala_sekolah(): array
+    {
+        static $kepala = null;
+        if ($kepala !== null) {
+            return $kepala;
+        }
+        $cfg  = config('Sekolah');
+        $db   = db_connect();
+        $user = $db->table('rb_users')->where('level', 'kepala')->where('aktif !=', 'N')->orderBy('id_user', 'DESC')->get()->getRowArray();
+        if ($user !== null) {
+            $guru = $db->table('rb_guru')->where('nip', $user['username'])->get()->getRowArray();
+
+            return $kepala = [
+                'nama' => (string) ($guru['nama_guru'] ?? $user['nama_lengkap']) ?: $cfg->kepalaNama,
+                'nip'  => (string) ($guru['nip'] ?? $user['username']) ?: $cfg->kepalaNip,
+            ];
+        }
+
+        return $kepala = ['nama' => $cfg->kepalaNama, 'nip' => $cfg->kepalaNip];
     }
 }

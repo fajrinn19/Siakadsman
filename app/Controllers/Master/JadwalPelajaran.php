@@ -90,4 +90,43 @@ class JadwalPelajaran extends CrudController
 
         return site_url($this->segmen) . ($tahun && $kelas ? '?' . http_build_query(['tahun' => $tahun, 'kelas' => $kelas]) : '');
     }
+
+    /**
+     * Tolak jadwal yang bentrok: di tahun akademik & hari yang sama, jamnya beririsan dan
+     * memakai guru, ruangan, atau kelas yang sama.
+     */
+    protected function validasiTambahan(array $data, ?array $lama): ?string
+    {
+        if ($data['jam_mulai'] >= $data['jam_selesai']) {
+            return 'Jam selesai harus lebih besar dari jam mulai.';
+        }
+
+        $b = model(JadwalPelajaranModel::class)->lengkap()
+            ->where('rb_jadwal_pelajaran.id_tahun_akademik', $data['id_tahun_akademik'])
+            ->where('rb_jadwal_pelajaran.hari', $data['hari'])
+            ->where('rb_jadwal_pelajaran.jam_mulai <', $data['jam_selesai'])
+            ->where('rb_jadwal_pelajaran.jam_selesai >', $data['jam_mulai'])
+            ->groupStart()
+                ->where('rb_jadwal_pelajaran.nip', $data['nip'])
+                ->orWhere('rb_jadwal_pelajaran.kode_ruangan', $data['kode_ruangan'])
+                ->orWhere('rb_jadwal_pelajaran.kode_kelas', $data['kode_kelas'])
+            ->groupEnd();
+        if ($lama !== null) {
+            $b->where('rb_jadwal_pelajaran.kodejdwl !=', $lama['kodejdwl']);
+        }
+        $bentrok = $b->first();
+        if ($bentrok === null) {
+            return null;
+        }
+
+        $apa = match (true) {
+            $bentrok['nip'] === $data['nip']                   => 'guru ' . $bentrok['nama_guru'],
+            $bentrok['kode_ruangan'] === $data['kode_ruangan'] => 'ruangan ' . $bentrok['nama_ruangan'],
+            default                                           => 'kelas ' . $bentrok['nama_kelas'],
+        };
+
+        return sprintf('Jadwal bentrok: %s sudah dipakai untuk %s (%s) hari %s jam %s-%s.',
+            $apa, $bentrok['namamatapelajaran'], $bentrok['nama_kelas'], $bentrok['hari'],
+            substr($bentrok['jam_mulai'], 0, 5), substr($bentrok['jam_selesai'], 0, 5));
+    }
 }

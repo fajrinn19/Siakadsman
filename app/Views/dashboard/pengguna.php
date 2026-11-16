@@ -24,6 +24,8 @@
 </div>
 
 <div class="col-lg-9 col-md-8">
+    <?= view('dashboard/_info', ['pengumuman' => $pengumuman, 'agenda' => $agenda]) ?>
+
     <?= view('dashboard/_jadwal_hari_ini', ['jadwal' => $hariIni]) ?>
 
     <div class="box" id="jadwalSaya">

@@ -77,6 +77,7 @@ class JadwalPelajaranModel extends Model
         return match ($user['level']) {
             'guru'  => (string) $jadwal['nip'] === $user['id'],
             'siswa' => (string) $jadwal['kode_kelas'] === $user['kode_kelas'],
+            'ortu'  => false,
             default => true,
         };
     }

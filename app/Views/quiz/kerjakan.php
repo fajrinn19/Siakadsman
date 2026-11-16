@@ -11,7 +11,7 @@
             <?php if ($habis): ?>
                 <div class="alert alert-warning">Waktu pengerjaan sudah habis (<?= esc(substr($quiz['batas_waktu'], 0, 16)) ?> WIB). Jawaban tidak bisa diubah lagi.</div>
             <?php else: ?>
-                <div class="alert alert-info">Batas waktu: <b><?= esc(substr($quiz['batas_waktu'], 0, 16)) ?> WIB</b>. Sisa waktu: <b id="sisaWaktu" data-batas="<?= strtotime($quiz['batas_waktu']) ?>"></b></div>
+                <div class="alert alert-info">Urutan soal diacak untuk setiap siswa. Batas waktu: <b><?= esc(substr($quiz['batas_waktu'], 0, 16)) ?> WIB</b>. Sisa waktu: <b id="sisaWaktu" data-batas="<?= strtotime($quiz['batas_waktu']) ?>"></b></div>
             <?php endif ?>
 
             <h4>A. Soal Essai</h4>
@@ -25,7 +25,7 @@
             </table>
 
             <h4>B. Soal Pilihan Ganda</h4>
-            <form method="post" action="<?= site_url("quiz/soal/{$id}/kerjakan") ?>">
+            <form method="post" action="<?= site_url("quiz/soal/{$id}/kerjakan") ?>" id="formObjektif">
                 <?= csrf_field() ?>
                 <table class="table table-bordered">
                     <?php foreach ($objektif as $i => $o): ?>
@@ -52,7 +52,12 @@
         (function tick() {
             var s = Math.max(0, Math.floor((batas - Date.now()) / 1000));
             el.textContent = Math.floor(s / 3600) + ' jam ' + Math.floor(s % 3600 / 60) + ' menit ' + (s % 60) + ' detik';
-            if (s > 0) { setTimeout(tick, 1000); }
+            if (s === 60) { el.parentNode.className = 'alert alert-warning'; }
+            if (s > 0) { setTimeout(tick, 1000); return; }
+            // Waktu habis: kumpulkan jawaban pilihan ganda otomatis.
+            var f = document.getElementById('formObjektif');
+            if (f && f.querySelector('input[type=radio]:checked')) { el.textContent = 'Waktu habis, jawaban dikumpulkan...'; f.submit(); }
+            else { location.reload(); }
         })();
     })();
 </script>

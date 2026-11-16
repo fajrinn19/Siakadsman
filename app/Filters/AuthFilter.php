@@ -17,6 +17,11 @@ class AuthFilter implements FilterInterface
             return redirect()->to(site_url('login'));
         }
 
+        $uri = trim($request->getUri()->getPath(), '/');
+        if (session('wajib_ganti_password') && ! in_array($uri, ['akun/password', 'logout'], true)) {
+            return redirect()->to(site_url('akun/password'));
+        }
+
         return null;
     }
 

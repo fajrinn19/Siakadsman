@@ -7,7 +7,7 @@
     </tr>
     <tr>
         <td><br><br><br><br><?= ! empty($tanpaOrtu) ? '' : '...................................' ?></td>
-        <td style="text-align:center"><br><br><br><br><b><?= esc($sekolah->kepalaNama) ?><br>NIP: <?= esc($sekolah->kepalaNip) ?></b></td>
+        <td style="text-align:center"><br><br><br><br><b><?= esc(kepala_sekolah()['nama']) ?><br>NIP: <?= esc(kepala_sekolah()['nip']) ?></b></td>
         <td><br><br><br><br><b><?= esc($wali['nama'] ?? '...................................') ?><br>NIP: <?= esc($wali['nip'] ?? '') ?></b></td>
     </tr>
 </table>

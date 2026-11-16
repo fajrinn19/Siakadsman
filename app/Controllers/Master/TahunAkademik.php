@@ -30,4 +30,12 @@ class TahunAkademik extends CrudController
             ['name' => 'aktif', 'label' => 'Aktif', 'type' => 'radio', 'options' => ['Ya' => 'Ya', 'Tidak' => 'Tidak']],
         ];
     }
+
+    /** Hanya satu tahun akademik yang boleh aktif. */
+    protected function setelahSimpan(array $data, string $id): void
+    {
+        if (($data['aktif'] ?? '') === 'Ya') {
+            $this->model()->where('id_tahun_akademik !=', $id)->set('aktif', 'Tidak')->update();
+        }
+    }
 }

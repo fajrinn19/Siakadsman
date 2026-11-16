@@ -32,7 +32,7 @@ CREATE TABLE `login_attempts` (
   `ip_address` varchar(45) NOT NULL,
   `username` varchar(100) NOT NULL,
   `attempt_time` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -47,7 +47,7 @@ CREATE TABLE `rb_absensi_guru` (
   `kode_kehadiran` varchar(5) NOT NULL,
   `tanggal` date NOT NULL,
   `waktu_input` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_absensi_guru`
@@ -87,7 +87,7 @@ CREATE TABLE `rb_absensi_siswa` (
   `kode_kehadiran` varchar(5) NOT NULL,
   `tanggal` date NOT NULL,
   `waktu_input` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_absensi_siswa`
@@ -124,7 +124,7 @@ INSERT INTO `rb_absensi_siswa` (`id_absensi_siswa`, `kodejdwl`, `nisn`, `kode_ke
 CREATE TABLE `rb_agama` (
   `id_agama` int(5) NOT NULL,
   `nama_agama` varchar(100) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_agama`
@@ -151,7 +151,7 @@ CREATE TABLE `rb_elearning` (
   `tanggal_tugas` datetime NOT NULL,
   `tanggal_selesai` datetime NOT NULL,
   `keterangan` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_elearning`
@@ -182,7 +182,7 @@ CREATE TABLE `rb_elearning_jawab` (
   `keterangan` text NOT NULL,
   `file_tugas` varchar(255) NOT NULL,
   `waktu` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_elearning_jawab`
@@ -204,7 +204,7 @@ CREATE TABLE `rb_forum_komentar` (
   `nisn_nip` varchar(20) NOT NULL,
   `isi_komentar` text NOT NULL,
   `waktu_komentar` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_forum_komentar`
@@ -232,7 +232,7 @@ CREATE TABLE `rb_forum_topic` (
   `judul_topic` varchar(255) NOT NULL,
   `isi_topic` text NOT NULL,
   `waktu` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_forum_topic`
@@ -260,7 +260,7 @@ CREATE TABLE `rb_gedung` (
   `lebar` varchar(20) NOT NULL,
   `keterangan` text NOT NULL,
   `aktif` enum('Y','N') NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_gedung`
@@ -281,7 +281,7 @@ CREATE TABLE `rb_golongan` (
   `id_golongan` int(5) NOT NULL,
   `nama_golongan` varchar(150) NOT NULL,
   `keterangan` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_golongan`
@@ -346,7 +346,7 @@ CREATE TABLE `rb_guru` (
   `npwp` varchar(50) NOT NULL,
   `kewarganegaraan` varchar(50) NOT NULL,
   `foto` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_guru`
@@ -375,7 +375,7 @@ CREATE TABLE `rb_halaman` (
   `isi_halaman` text NOT NULL,
   `username` varchar(50) NOT NULL,
   `status` enum('psb','journal') NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_halaman`
@@ -405,7 +405,7 @@ CREATE TABLE `rb_identitas_sekolah` (
   `provinsi` varchar(255) NOT NULL,
   `website` varchar(100) NOT NULL,
   `email` varchar(150) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_identitas_sekolah`
@@ -433,7 +433,7 @@ CREATE TABLE `rb_jadwal_pelajaran` (
   `jam_selesai` time NOT NULL,
   `hari` varchar(20) NOT NULL,
   `aktif` enum('Ya','Tidak') NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_jadwal_pelajaran`
@@ -467,7 +467,7 @@ CREATE TABLE `rb_jawaban_essai` (
   `id_pertanyaan_essai` int(10) NOT NULL,
   `jawaban_essai` text NOT NULL,
   `waktu_tugas` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_jawaban_essai`
@@ -495,7 +495,7 @@ CREATE TABLE `rb_jawaban_objektif` (
   `id_pertanyaan_objektif` int(10) NOT NULL,
   `jawaban` varchar(2) NOT NULL,
   `waktu_objektif` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_jawaban_objektif`
@@ -520,7 +520,7 @@ INSERT INTO `rb_jawaban_objektif` (`id_jawaban_objektif`, `nisn`, `id_pertanyaan
 CREATE TABLE `rb_jenis_kelamin` (
   `id_jenis_kelamin` int(5) NOT NULL,
   `jenis_kelamin` varchar(50) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_jenis_kelamin`
@@ -540,7 +540,7 @@ CREATE TABLE `rb_jenis_ptk` (
   `id_jenis_ptk` int(5) NOT NULL,
   `jenis_ptk` varchar(100) NOT NULL,
   `keterangan` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_jenis_ptk`
@@ -567,7 +567,7 @@ CREATE TABLE `rb_journal_list` (
   `keterangan` text NOT NULL,
   `waktu_input` datetime NOT NULL,
   `users` varchar(50) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_journal_list`
@@ -596,7 +596,7 @@ CREATE TABLE `rb_jurusan` (
   `jabatan` varchar(100) NOT NULL,
   `keterangan` text NOT NULL,
   `aktif` enum('Ya','Tidak') NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_jurusan`
@@ -616,7 +616,7 @@ INSERT INTO `rb_jurusan` (`kode_jurusan`, `nama_jurusan`, `nama_jurusan_en`, `bi
 CREATE TABLE `rb_kategori_elearning` (
   `id_kategori_elearning` int(5) NOT NULL,
   `nama_kategori_elearning` varchar(50) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_kategori_elearning`
@@ -635,7 +635,7 @@ INSERT INTO `rb_kategori_elearning` (`id_kategori_elearning`, `nama_kategori_ele
 CREATE TABLE `rb_kategori_quiz_ujian` (
   `id_kategori_quiz_ujian` int(5) NOT NULL,
   `kategori_quiz_ujian` varchar(50) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_kategori_quiz_ujian`
@@ -656,7 +656,7 @@ CREATE TABLE `rb_kehadiran` (
   `nama_kehadiran` varchar(20) NOT NULL,
   `nilai` int(2) NOT NULL,
   `bobot` varchar(5) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_kehadiran`
@@ -681,7 +681,7 @@ CREATE TABLE `rb_kelas` (
   `kode_ruangan` varchar(10) NOT NULL,
   `nama_kelas` varchar(20) NOT NULL,
   `aktif` enum('Ya','Tidak') NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_kelas`
@@ -732,7 +732,7 @@ CREATE TABLE `rb_kelompok_mata_pelajaran` (
   `id_kelompok_mata_pelajaran` int(5) NOT NULL,
   `jenis_kelompok_mata_pelajaran` varchar(50) NOT NULL,
   `nama_kelompok_mata_pelajaran` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_kelompok_mata_pelajaran`
@@ -755,7 +755,7 @@ CREATE TABLE `rb_kompetensi_dasar` (
   `ranah` enum('pengetahuan','keterampilan','sikap') NOT NULL,
   `kompetensi_dasar` text NOT NULL,
   `waktu_input` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_kompetensi_dasar`
@@ -777,7 +777,7 @@ CREATE TABLE `rb_kurikulum` (
   `kode_kurikulum` int(5) NOT NULL,
   `nama_kurikulum` varchar(255) NOT NULL,
   `status_kurikulum` enum('Ya','Tidak') NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_kurikulum`
@@ -809,7 +809,7 @@ CREATE TABLE `rb_mata_pelajaran` (
   `sesi` varchar(50) NOT NULL,
   `urutan` int(3) NOT NULL,
   `aktif` enum('Ya','Tidak') NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_mata_pelajaran`
@@ -847,7 +847,7 @@ CREATE TABLE `rb_menu` (
   `aktif` enum('Ya','Tidak') NOT NULL DEFAULT 'Ya',
   `urutan` int(3) NOT NULL,
   `status` enum('psb','journal') NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_menu`
@@ -875,7 +875,7 @@ CREATE TABLE `rb_nilai_extrakulikuler` (
   `deskripsi` text NOT NULL,
   `user_akses` varchar(50) NOT NULL,
   `waktu_input` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_nilai_extrakulikuler`
@@ -907,7 +907,7 @@ CREATE TABLE `rb_nilai_keterampilan` (
   `deskripsi` text NOT NULL,
   `user_akses` varchar(50) NOT NULL,
   `waktu` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_nilai_keterampilan`
@@ -953,7 +953,7 @@ CREATE TABLE `rb_nilai_pengetahuan` (
   `deskripsi` text NOT NULL,
   `user_akses` varchar(50) NOT NULL,
   `waktu` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_nilai_pengetahuan`
@@ -992,7 +992,7 @@ CREATE TABLE `rb_nilai_pertanyaan_essai` (
   `id_quiz_ujian` int(5) NOT NULL,
   `nisn` varchar(20) NOT NULL,
   `nilai_essai` int(3) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_nilai_pertanyaan_essai`
@@ -1018,7 +1018,7 @@ CREATE TABLE `rb_nilai_prestasi` (
   `keterangan` text NOT NULL,
   `user_akses` varchar(50) NOT NULL,
   `waktu_input` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_nilai_prestasi`
@@ -1045,7 +1045,7 @@ CREATE TABLE `rb_nilai_sikap` (
   `status` enum('spiritual','sosial') NOT NULL,
   `user_akses` varchar(50) NOT NULL,
   `waktu` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_nilai_sikap`
@@ -1092,7 +1092,7 @@ CREATE TABLE `rb_nilai_sikap_semester` (
   `sosial_deskripsi` text NOT NULL,
   `user_akses` varchar(50) NOT NULL,
   `waktu_input` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_nilai_sikap_semester`
@@ -1155,7 +1155,7 @@ CREATE TABLE `rb_nilai_uts` (
   `angka_keterampilan` float NOT NULL,
   `deskripsi_keterampilan` text NOT NULL,
   `waktu_input_uts` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_nilai_uts`
@@ -1228,7 +1228,7 @@ CREATE TABLE `rb_pertanyaan_essai` (
   `id_pertanyaan_essai` int(11) NOT NULL,
   `id_quiz_ujian` int(5) NOT NULL,
   `pertanyaan_essai` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_pertanyaan_essai`
@@ -1260,7 +1260,7 @@ CREATE TABLE `rb_pertanyaan_objektif` (
   `jawab_d` varchar(255) NOT NULL,
   `jawab_e` varchar(255) NOT NULL,
   `kunci_jawaban` varchar(5) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_pertanyaan_objektif`
@@ -1288,7 +1288,7 @@ CREATE TABLE `rb_pertanyaan_penilaian` (
   `pertanyaan` varchar(255) NOT NULL,
   `status` enum('diri','teman') NOT NULL,
   `waktu_input` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_pertanyaan_penilaian`
@@ -1316,7 +1316,7 @@ CREATE TABLE `rb_pertanyaan_penilaian_jawab` (
   `status` enum('diri','teman') NOT NULL,
   `kode_kelas` varchar(10) NOT NULL,
   `waktu_jawab` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_pertanyaan_penilaian_jawab`
@@ -1347,7 +1347,7 @@ CREATE TABLE `rb_predikat` (
   `nilai_b` int(3) NOT NULL,
   `grade` varchar(5) NOT NULL,
   `keterangan` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_predikat`
@@ -1376,7 +1376,7 @@ CREATE TABLE `rb_psb_aktivasi` (
   `status` enum('sma','smk','smp') NOT NULL,
   `proses` int(2) NOT NULL,
   `waktu_input` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_psb_aktivasi`
@@ -1442,7 +1442,7 @@ CREATE TABLE `rb_psb_pendaftaran` (
   `no_telpon_wali` varchar(15) NOT NULL,
   `status` enum('sma','smk','smp') NOT NULL,
   `waktu_daftar` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_psb_pendaftaran`
@@ -1465,7 +1465,7 @@ CREATE TABLE `rb_psb_pendaftaran_saudara` (
   `nama_saudara` varchar(150) NOT NULL,
   `umur_saudara` int(5) NOT NULL,
   `pendidikan_saudara` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_psb_pendaftaran_saudara`
@@ -1493,7 +1493,7 @@ CREATE TABLE `rb_quiz_ujian` (
   `kodejdwl` int(5) NOT NULL,
   `keterangan` text NOT NULL,
   `batas_waktu` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_quiz_ujian`
@@ -1519,7 +1519,7 @@ CREATE TABLE `rb_ruangan` (
   `kapasitas_ujian` int(5) NOT NULL,
   `keterangan` text NOT NULL,
   `aktif` enum('Ya','Tidak') NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_ruangan`
@@ -1544,7 +1544,7 @@ CREATE TABLE `rb_sesi` (
   `nama_sesi` varchar(100) NOT NULL,
   `keterangan` text NOT NULL,
   `aktif` enum('Ya','Tidak') NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_sesi`
@@ -1618,7 +1618,7 @@ CREATE TABLE `rb_siswa` (
   `kode_kelas` varchar(10) NOT NULL,
   `kode_jurusan` varchar(10) NOT NULL,
   `id_sesi` int(5) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_siswa`
@@ -1647,7 +1647,7 @@ CREATE TABLE `rb_sms` (
   `id_sms` int(5) NOT NULL,
   `nohp` varchar(15) NOT NULL,
   `pesan` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_sms`
@@ -1671,7 +1671,7 @@ CREATE TABLE `rb_sms_autoreply` (
   `keyword` varchar(100) NOT NULL,
   `isi_pesan` text NOT NULL,
   `waktu` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_sms_autoreply`
@@ -1693,7 +1693,7 @@ CREATE TABLE `rb_sms_inbox` (
   `nohp` varchar(20) DEFAULT NULL,
   `waktu` datetime DEFAULT NULL,
   `modem` varchar(50) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -1706,7 +1706,7 @@ CREATE TABLE `rb_sms_outbox` (
   `nohp` varchar(20) NOT NULL,
   `pesan` text NOT NULL,
   `waktu` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -1718,7 +1718,7 @@ CREATE TABLE `rb_status_keaktifan` (
   `id_status_keaktifan` int(5) NOT NULL,
   `nama_status_keaktifan` varchar(255) NOT NULL,
   `keterangan` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_status_keaktifan`
@@ -1738,7 +1738,7 @@ CREATE TABLE `rb_status_kepegawaian` (
   `id_status_kepegawaian` int(5) NOT NULL,
   `status_kepegawaian` varchar(255) NOT NULL,
   `keterangan` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_status_kepegawaian`
@@ -1761,7 +1761,7 @@ CREATE TABLE `rb_status_pernikahan` (
   `id_status_pernikahan` int(5) NOT NULL,
   `status_pernikahan` varchar(150) NOT NULL,
   `keterangan` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_status_pernikahan`
@@ -1782,7 +1782,7 @@ CREATE TABLE `rb_tahun_akademik` (
   `nama_tahun` varchar(255) NOT NULL,
   `keterangan` text NOT NULL,
   `aktif` enum('Ya','Tidak') NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_tahun_akademik`
@@ -1810,7 +1810,7 @@ CREATE TABLE `rb_users` (
   `jabatan` varchar(150) NOT NULL,
   `level` varchar(20) NOT NULL DEFAULT 'sekolah',
   `aktif` enum('Y','N') NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Dumping data for table `rb_users`
@@ -1836,7 +1836,7 @@ CREATE TABLE `rb_users_aktivitas` (
   `status` enum('siswa','guru','superuser') NOT NULL,
   `jam` time NOT NULL,
   `tanggal` date NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `rb_users_aktivitas`
@@ -2734,4 +2734,58 @@ CREATE TABLE IF NOT EXISTS `rb_riwayat_kelas` (
   `waktu` datetime NOT NULL,
   PRIMARY KEY (`id_riwayat_kelas`),
   KEY `nisn` (`nisn`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+-- Tabel tambahan (sama dengan migration 2026-11-17-000001_FiturLanjutan)
+--
+
+CREATE TABLE IF NOT EXISTS `rb_ortu` (
+  `id_ortu` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nisn` varchar(20) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `nama` varchar(150) NOT NULL DEFAULT '',
+  `no_hp` varchar(20) NOT NULL DEFAULT '',
+  `aktif` enum('Ya','Tidak') NOT NULL DEFAULT 'Ya',
+  `waktu` datetime NOT NULL,
+  PRIMARY KEY (`id_ortu`),
+  UNIQUE KEY `username` (`username`),
+  KEY `nisn` (`nisn`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `rb_pengumuman` (
+  `id_pengumuman` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `judul` varchar(200) NOT NULL,
+  `isi` text NOT NULL,
+  `untuk` varchar(20) NOT NULL DEFAULT 'semua',
+  `tanggal_mulai` date NOT NULL,
+  `tanggal_selesai` date NOT NULL,
+  `user_akses` varchar(50) NOT NULL DEFAULT '',
+  `waktu` datetime NOT NULL,
+  PRIMARY KEY (`id_pengumuman`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `rb_kalender` (
+  `id_kalender` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `judul` varchar(200) NOT NULL,
+  `jenis` varchar(30) NOT NULL DEFAULT 'Kegiatan',
+  `tanggal_mulai` date NOT NULL,
+  `tanggal_selesai` date NOT NULL,
+  `keterangan` text DEFAULT NULL,
+  PRIMARY KEY (`id_kalender`),
+  KEY `tanggal_mulai` (`tanggal_mulai`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `rb_log_aktivitas` (
+  `id_log` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_user` varchar(50) NOT NULL DEFAULT '',
+  `nama` varchar(150) NOT NULL DEFAULT '',
+  `level` varchar(20) NOT NULL DEFAULT '',
+  `aksi` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `ip` varchar(45) NOT NULL DEFAULT '',
+  `waktu` datetime NOT NULL,
+  PRIMARY KEY (`id_log`),
+  KEY `waktu` (`waktu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

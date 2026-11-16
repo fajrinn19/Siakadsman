@@ -9,7 +9,7 @@ use CodeIgniter\Model;
  */
 class RiwayatKelasModel extends Model
 {
-    public const JENIS = ['Masuk', 'Naik Kelas', 'Pindah Kelas', 'Tinggal Kelas', 'Perubahan Data'];
+    public const JENIS = ['Masuk', 'Naik Kelas', 'Pindah Kelas', 'Tinggal Kelas', 'Lulus', 'Perubahan Data'];
 
     protected $table            = 'rb_riwayat_kelas';
     protected $primaryKey       = 'id_riwayat_kelas';
@@ -43,7 +43,7 @@ class RiwayatKelasModel extends Model
         string $keterangan = '',
     ): void {
         $berubah = $kelasAsal !== $kelasTujuan || (int) $angkatanAsal !== (int) $angkatanTujuan;
-        if (! $berubah && $jenis !== 'Tinggal Kelas') {
+        if (! $berubah && ! in_array($jenis, ['Tinggal Kelas', 'Lulus'], true)) {
             return;
         }
 
@@ -111,5 +111,28 @@ class RiwayatKelasModel extends Model
                 ->findAll(),
             'nisn'
         )));
+    }
+
+    /**
+     * Semua kelas yang pernah ditempati siswa (kelas sekarang di depan), untuk memilih raport tahun lalu.
+     *
+     * @return array<string, string> kode_kelas => label
+     */
+    public function kelasPernah(string $nisn, string $kelasSekarang): array
+    {
+        $kode = [$kelasSekarang];
+        foreach ($this->where('nisn', $nisn)->orderBy('waktu', 'DESC')->findAll() as $r) {
+            $kode[] = $r['kode_kelas_asal'];
+            $kode[] = $r['kode_kelas_tujuan'];
+        }
+        $kode = array_values(array_unique(array_filter($kode)));
+        $nama = $kode === [] ? [] : array_column(db_connect()->table('rb_kelas')->whereIn('kode_kelas', $kode)->get()->getResultArray(), 'nama_kelas', 'kode_kelas');
+
+        $opsi = [];
+        foreach ($kode as $k) {
+            $opsi[$k] = $k . (isset($nama[$k]) ? ' - ' . $nama[$k] : '') . ($k === $kelasSekarang ? ' (sekarang)' : '');
+        }
+
+        return $opsi;
     }
 }

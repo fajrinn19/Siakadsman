@@ -25,4 +25,12 @@ class Kurikulum extends CrudController
             ['name' => 'status_kurikulum', 'label' => 'Aktif', 'type' => 'radio', 'options' => ['Ya' => 'Ya', 'Tidak' => 'Tidak'], 'default' => 'Tidak'],
         ];
     }
+
+    /** Hanya satu kurikulum yang boleh aktif. */
+    protected function setelahSimpan(array $data, string $id): void
+    {
+        if (($data['status_kurikulum'] ?? '') === 'Ya') {
+            $this->model()->where('kode_kurikulum !=', $id)->set('status_kurikulum', 'Tidak')->update();
+        }
+    }
 }

@@ -124,3 +124,10 @@ _modules/*
 
 /results/
 /phpunit.xml
+
+#-------------------------
+# SIAKAD: jangan commit unggahan pengguna (foto, file tugas) — berisi data pribadi.
+#-------------------------
+/public/uploads/foto_siswa/*
+!/public/uploads/foto_siswa/no-image.jpg
+/public/uploads/foto_pegawai/*

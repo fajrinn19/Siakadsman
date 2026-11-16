@@ -35,6 +35,6 @@
 <br><br>
 <table width="40%" style="float:right">
     <tr><td><?= esc($sekolah->kota) ?>, <?= tgl_raport(date('Y-m-d')) ?><br>Kepala Sekolah,<br><br><br><br>
-        <b><?= esc($sekolah->kepalaNama) ?><br>NIP: <?= esc($sekolah->kepalaNip) ?></b></td></tr>
+        <b><?= esc(kepala_sekolah()['nama']) ?><br>NIP: <?= esc(kepala_sekolah()['nip']) ?></b></td></tr>
 </table>
 <?= $this->endSection() ?>

@@ -8,6 +8,7 @@
             <?php if (boleh_ubah()): ?>
                 <a class="pull-right btn btn-success btn-sm" style="margin-left:5px" target="_blank" href="<?= site_url('siswa/cetak') . '?' . http_build_query(['kelas' => $kelas, 'angkatan' => $angkatan]) ?>"><i class="fa fa-print"></i> Cetak</a>
                 <a class="pull-right btn btn-primary btn-sm" style="margin-left:5px" href="<?= site_url('siswa/tambah') ?>"><i class="fa fa-plus"></i> Tambah Siswa</a>
+                <a class="pull-right btn btn-default btn-sm" style="margin-left:5px" href="<?= site_url('siswa/impor') ?>"><i class="fa fa-file-excel-o"></i> Impor Excel</a>
             <?php endif ?>
             <form class="pull-right filter-form" method="get" action="<?= site_url('siswa') ?>">
                 <input type="search" name="q" placeholder="Nama / NISN" value="<?= esc($cari, 'attr') ?>" style="width:150px">

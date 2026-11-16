@@ -25,6 +25,7 @@ $aktif    = static function (string $url) use ($sekarang): bool {
         <?php endforeach ?>
         <li class="pemisah"></li>
         <li class="<?= $aktif('profil') ? 'active' : '' ?>"><a href="<?= site_url('profil') ?>"><i class="fa fa-cog"></i> <span>Profil Saya</span></a></li>
+        <li class="<?= $aktif('akun/password') ? 'active' : '' ?>"><a href="<?= site_url('akun/password') ?>"><i class="fa fa-key"></i> <span>Ganti Password</span></a></li>
         <li><a href="<?= site_url('logout') ?>"><i class="fa fa-sign-out"></i> <span>Logout</span></a></li>
     </ul>
 </section>

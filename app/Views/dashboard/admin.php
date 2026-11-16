@@ -115,6 +115,8 @@ $bulanSingkat = array_map(static fn ($b) => nama_bulan($b, true), range(1, 12));
         </div>
     </div>
 
+    <?= view('dashboard/_info', ['pengumuman' => $pengumuman, 'agenda' => $agenda]) ?>
+
     <?= view('dashboard/_jadwal_hari_ini', ['jadwal' => $jadwal, 'tautanSemua' => site_url('jadwal-pelajaran')]) ?>
 </div>
 <?= $this->endSection() ?>

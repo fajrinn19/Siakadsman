@@ -65,7 +65,12 @@ class Auth extends BaseController
         $attempts->bersihkan($ip);
         session()->remove('captcha_code');
         session()->regenerate(true);
-        session()->set($akun['sesi']);
+        session()->set($akun['sesi'] + [
+            'username'             => $username,
+            // Password bawaan yang sama dengan username/NIP/NISN wajib diganti dulu.
+            'wajib_ganti_password' => strcasecmp($password, $username) === 0 || ! empty($akun['sesi']['paksa_ganti']),
+        ]);
+        session()->remove('paksa_ganti');
         $this->catatAktivitas($akun['sesi']['id'], $akun['sesi']['level']);
 
         return redirect()->to(site_url('/'));
@@ -150,6 +155,23 @@ class Auth extends BaseController
             ]];
         }
 
+        $ortuModel = model(\App\Models\OrtuModel::class);
+        $ortu      = $ortuModel->where(['username' => $username, 'aktif' => 'Ya'])->first();
+        if ($ortu !== null && Password::cocok($password, $ortu['password'])) {
+            $anak = $siswaModel->cariNisn($ortu['nisn']);
+            if ($anak !== null) {
+                return ['sesi' => [
+                    'id'          => (string) $ortu['id_ortu'],
+                    'namalengkap' => $ortu['nama'],
+                    'nisn_anak'   => $ortu['nisn'],
+                    'kode_kelas'  => $anak['kode_kelas'],
+                    'level'       => 'ortu',
+                    // Password awal akun orang tua = NISN anak; wajib diganti.
+                    'paksa_ganti' => $password === $ortu['nisn'],
+                ]];
+            }
+        }
+
         return null;
     }
 
@@ -163,7 +185,7 @@ class Auth extends BaseController
             'browser'    => mb_substr($agent->getBrowser() . ' ' . $agent->getVersion(), 0, 50),
             'os'         => mb_substr($agent->getPlatform(), 0, 50),
             // Kolom status hanya mengenal siswa/guru/superuser; kepala dicatat sebagai superuser.
-            'status'     => in_array($level, ['siswa', 'guru'], true) ? $level : 'superuser',
+            'status'     => in_array($level, ['siswa', 'guru'], true) ? $level : ($level === 'ortu' ? 'siswa' : 'superuser'),
             'jam'        => date('H:i:s'),
             'tanggal'    => date('Y-m-d'),
         ]);

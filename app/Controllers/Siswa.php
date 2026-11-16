@@ -92,6 +92,8 @@ class Siswa extends BaseController
     {
         if (level() === 'siswa') {
             $nisn = (string) session('id');
+        } elseif (level() === 'ortu') {
+            $nisn = (string) session('nisn_anak');
         }
         $s = $this->wajibAda(model(SiswaModel::class)->detail($nisn), 'Siswa tidak ditemukan.');
 

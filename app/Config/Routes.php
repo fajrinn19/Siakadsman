@@ -23,9 +23,18 @@ $routes->post('login', 'Auth::attempt');
 $routes->get('login/captcha', 'Auth::captcha');
 $routes->get('logout', 'Auth::logout');
 
+// ---------------------------------------------------------------- PPDB publik (tanpa login)
+$routes->get('ppdb', 'Ppdb::formulir');
+$routes->post('ppdb', 'Ppdb::daftar', ['filter' => 'honeypot']);
+$routes->get('ppdb/status', 'Ppdb::status');
+
 $routes->group('', ['filter' => 'auth'], static function (RouteCollection $routes) use ($crud): void {
     $routes->get('/', 'Dashboard::index');
     $routes->get('profil', 'Dashboard::profil');
+    $routes->get('akun/password', 'Akun::password');
+    $routes->get('info/pengumuman', 'Info::pengumuman');
+    $routes->get('info/kalender', 'Info::kalender');
+    $routes->post('akun/password', 'Akun::simpanPassword');
     $routes->get('unduh/bahan/(:num)', 'BahanTugas::unduhBahan/$1');
     $routes->get('unduh/jawaban/(:num)', 'BahanTugas::unduhJawaban/$1');
 
@@ -51,11 +60,34 @@ $routes->group('', ['filter' => 'auth'], static function (RouteCollection $route
         $crud($routes, 'penilaian-diri', 'Master\PenilaianDiri');
         $crud($routes, 'penilaian-teman', 'Master\PenilaianTeman');
         $crud($routes, 'kepala-sekolah', 'Master\KepalaSekolah');
+        $crud($routes, 'pengumuman', 'Master\Pengumuman');
+        $crud($routes, 'kalender', 'Master\Kalender');
+        $routes->get('log-aktivitas', 'Info::log');
+        $routes->get('notifikasi', 'AntreanNotifikasi::index');
+        $routes->post('notifikasi/kirim', 'AntreanNotifikasi::kirim');
+        $routes->post('notifikasi/hapus/(:num)', 'AntreanNotifikasi::hapus/$1');
+        $routes->get('pemeriksaan-data', 'PemeriksaanData::index');
+        $routes->post('pemeriksaan-data/bersihkan/(:segment)', 'PemeriksaanData::bersihkan/$1');
+        $routes->get('ppdb/admin', 'Ppdb::admin');
+        $routes->get('ppdb/admin/(:num)', 'Ppdb::detail/$1');
+        $routes->post('ppdb/admin/(:num)/terima', 'Ppdb::terima/$1');
+        $routes->post('ppdb/admin/(:num)/tolak', 'Ppdb::tolak/$1');
+        $routes->get('akun-ortu', 'AkunOrtu::index');
+        $routes->post('akun-ortu/buat', 'AkunOrtu::buat');
+        $routes->post('akun-ortu/reset/(:num)', 'AkunOrtu::reset/$1');
+        $routes->post('akun-ortu/hapus/(:num)', 'AkunOrtu::hapus/$1');
+        $routes->get('kenaikan-kelas', 'KenaikanKelas::index');
+        $routes->post('kenaikan-kelas/pratinjau', 'KenaikanKelas::pratinjau');
+        $routes->post('kenaikan-kelas/proses', 'KenaikanKelas::proses');
+        $routes->get('alumni', 'KenaikanKelas::alumni');
 
         // Data administrator hanya untuk superuser, kecuali kepala mengubah profilnya sendiri (dicek di controller).
         $crud($routes, 'admin', 'Master\Admin');
 
         $routes->get('siswa', 'Siswa::index');
+        $routes->get('siswa/impor', 'Impor::index');
+        $routes->get('siswa/impor/template', 'Impor::template');
+        $routes->post('siswa/impor', 'Impor::proses');
         $routes->get('siswa/tambah', 'Siswa::tambah');
         $routes->post('siswa/tambah', 'Siswa::simpan');
         $routes->post('siswa/pindah-kelas', 'Siswa::pindahKelas');
@@ -127,6 +159,8 @@ $routes->group('', ['filter' => 'auth'], static function (RouteCollection $route
         $routes->post('quiz/soal/(:num)/essai/hapus/(:num)', 'Quiz::hapusEssai/$1/$2');
         $routes->post('quiz/soal/(:num)/objektif/hapus/(:num)', 'Quiz::hapusObjektif/$1/$2');
         $routes->get('quiz/soal/(:num)/jawaban', 'Quiz::jawaban/$1');
+        $routes->post('quiz/soal/(:num)/salin', 'Quiz::salinSoal/$1');
+        $routes->post('quiz/soal/(:num)/kirim-nilai', 'Quiz::kirimNilai/$1');
         $routes->get('quiz/soal/(:num)/jawaban/(:segment)', 'Quiz::jawabanSiswa/$1/$2');
         $routes->post('quiz/soal/(:num)/jawaban/(:segment)', 'Quiz::nilaiEssai/$1/$2');
 
@@ -149,8 +183,12 @@ $routes->group('', ['filter' => 'auth'], static function (RouteCollection $route
         $routes->post('nilai-uts/(:num)', 'NilaiUts::simpan/$1');
 
         $routes->get('raport/cetak', 'Raport\Cetak::index');
+        $routes->get('raport/ekspor-nilai', 'Ekspor::nilai');
+        $routes->get('absensi-siswa/rekap/(:num)/ekspor', 'Ekspor::absensi/$1');
         $routes->get('raport/cetak-uts', 'Raport\Cetak::uts');
         $routes->get('raport/print/uts/(:segment)', 'Raport\Cetak::printUts/$1');
+        $routes->get('raport/pdf/(:segment)', 'Raport\Cetak::pdf/$1');
+        $routes->get('raport/pdf-kelas', 'Raport\Cetak::pdfKelas');
         $routes->get('raport/print/(:segment)/(:segment)', 'Raport\Cetak::halaman/$1/$2');
     });
 
@@ -170,9 +208,20 @@ $routes->group('', ['filter' => 'auth'], static function (RouteCollection $route
         $routes->get('quiz/soal/(:num)/essai/(:num)', 'Quiz::jawabEssai/$1/$2');
         $routes->post('quiz/soal/(:num)/essai/(:num)', 'Quiz::simpanEssai/$1/$2');
 
+        $routes->get('kompetensi-saya/(:num)', 'Dashboard::kompetensi/$1');
+    });
+
+    // ------------------------------------------------------------ Siswa & orang tua: nilai
+    $routes->group('', ['filter' => 'role:siswa,ortu'], static function (RouteCollection $routes): void {
         $routes->get('raport/saya', 'Raport\Siswa::raport');
         $routes->get('raport/uts-saya', 'Raport\Siswa::uts');
-        $routes->get('kompetensi-saya/(:num)', 'Dashboard::kompetensi/$1');
+    });
+
+    // ------------------------------------------------------------ Orang tua
+    $routes->group('ortu', ['filter' => 'role:ortu'], static function (RouteCollection $routes): void {
+        $routes->get('/', 'PortalOrtu::dashboard');
+        $routes->get('absensi', 'PortalOrtu::absensi');
+        $routes->get('tugas', 'PortalOrtu::tugas');
     });
 
     // ------------------------------------------------------------ Semua pengguna (akses per jadwal dicek di controller)

@@ -5,7 +5,7 @@
  * @var array       $s
  * @var list<array> $riwayat
  */
-$warna = ['Masuk' => 'chip-aktif', 'Naik Kelas' => 'chip-aktif', 'Pindah Kelas' => 'chip-tunggu', 'Tinggal Kelas' => 'chip-tunggu', 'Perubahan Data' => 'chip-redup'];
+$warna = ['Masuk' => 'chip-aktif', 'Naik Kelas' => 'chip-aktif', 'Pindah Kelas' => 'chip-tunggu', 'Tinggal Kelas' => 'chip-tunggu', 'Lulus' => 'chip-aktif', 'Perubahan Data' => 'chip-redup'];
 $label = static fn ($kode, $nama) => $kode === '' ? '-' : esc($kode) . ($nama ? ' <small class="text-muted">' . esc($nama) . '</small>' : '');
 ?>
 <p>Kelas saat ini: <b><?= esc($s['kode_kelas']) ?></b> <?= $s['nama_kelas'] ? '(' . esc($s['nama_kelas']) . ')' : '' ?>, angkatan <b><?= esc((string) $s['angkatan']) ?></b></p>
